@@ -27,16 +27,19 @@ model Booking {
   checkinDate    DateTime
   checkoutDate   DateTime?
   numberOfGuests Int
-  totalPrice     Decimal   @mysql.Decimal(10, 2)
+  totalPrice     Decimal   @db.Decimal(10, 2)
   bookingStatus  String
 
   user     User     @relation(fields: [userId], references: [id])
   property Property @relation(fields: [propertyId], references: [id])
+
+  @@index([userId])
+  @@index([propertyId])
 }
 
 model Host {
   id             String @id @default(uuid())
-  userName       String @unique
+  username       String @unique
   password       String
   name           String
   email          String
@@ -52,7 +55,7 @@ model Property {
   title         String
   description   String
   location      String
-  pricePerNight Decimal @mysql.Decimal(10, 2)
+  pricePerNight Decimal @db.Decimal(10, 2)
   bedroomCount  Int
   bathRoomCount Int
   maxGuestCount Int
@@ -63,6 +66,8 @@ model Property {
   reviews   Review[]
   amenities Amenity[]
   host      Host      @relation(fields: [hostId], references: [id])
+
+  @@index([hostId])
 }
 
 model Review {
@@ -74,6 +79,9 @@ model Review {
 
   user     User     @relation(fields: [userId], references: [id])
   property Property @relation(fields: [propertyId], references: [id])
+
+  @@index([userId])
+  @@index([propertyId])
 }
 
 model User {
