@@ -58,7 +58,7 @@ router.get("/:id", async (req, res, next) => {
         const { id } = req.params;
         const amenity = await getAmenityById(id);
 
-        if (!category) {
+        if (!amenity) {
             res.status(404).json({ message: `Amenity with id ${id} not found` });
         } else {
             res.status(200).json(amenity);

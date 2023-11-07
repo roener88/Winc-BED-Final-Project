@@ -25,9 +25,9 @@ router.post("/", async (req, res, next) => {
 router.delete("/:id", auth, async (req, res, next) => {
     try {
         const { id } = req.params;
-        const Property = await deletePropertyById(id);
+        const property = await deletePropertyById(id);
 
-        if (Property) {
+        if (property) {
             res.status(200).send({
                 message: `Property with id ${id} successfully deleted`,
                 Property,
@@ -56,12 +56,12 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
     try {
         const { id } = req.params;
-        const Property = await getPropertyById(id);
+        const property = await getPropertyById(id);
 
-        if (!category) {
+        if (!property) {
             res.status(404).json({ message: `Property with id ${id} not found` });
         } else {
-            res.status(200).json(Property);
+            res.status(200).json(property);
         }
     } catch (error) {
         next(error);
@@ -74,9 +74,9 @@ router.put("/:id", auth, async (req, res, next) => {
     try {
         const { id } = req.params;
         const { name } = req.body;
-        const Property = await updatePropertyById(id, { name });
+        const property = await updatePropertyById(id, { name });
 
-        if (Property) {
+        if (property) {
             res.status(200).send({
                 message: `Property with id ${id} successfully updated`,
             });

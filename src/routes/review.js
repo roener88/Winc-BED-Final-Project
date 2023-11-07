@@ -25,12 +25,12 @@ router.post("/", async (req, res, next) => {
 router.delete("/:id", auth, async (req, res, next) => {
     try {
         const { id } = req.params;
-        const Review = await deleteReviewById(id);
+        const review = await deleteReviewById(id);
 
-        if (Review) {
+        if (review) {
             res.status(200).send({
                 message: `Review with id ${id} successfully deleted`,
-                Review,
+                review,
             });
         } else {
             res.status(404).json({
@@ -56,12 +56,12 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
     try {
         const { id } = req.params;
-        const Review = await getReviewById(id);
+        const review = await getReviewById(id);
 
-        if (!category) {
+        if (!review) {
             res.status(404).json({ message: `Review with id ${id} not found` });
         } else {
-            res.status(200).json(Review);
+            res.status(200).json(review);
         }
     } catch (error) {
         next(error);
@@ -74,9 +74,9 @@ router.put("/:id", auth, async (req, res, next) => {
     try {
         const { id } = req.params;
         const { name } = req.body;
-        const Review = await updateReviewById(id, { name });
+        const review = await updateReviewById(id, { name });
 
-        if (Review) {
+        if (review) {
             res.status(200).send({
                 message: `Review with id ${id} successfully updated`,
             });

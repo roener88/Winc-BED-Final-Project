@@ -40,12 +40,12 @@ router.post("/", async (req, res, next) => {
 router.delete("/:id", auth, async (req, res, next) => {
     try {
         const { id } = req.params;
-        const Booking = await deleteBookingById(id);
+        const booking = await deleteBookingById(id);
 
-        if (Booking) {
+        if (booking) {
             res.status(200).send({
                 message: `Booking with id ${id} successfully deleted`,
-                Booking,
+                booking,
             });
         } else {
             res.status(404).json({
@@ -71,12 +71,12 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
     try {
         const { id } = req.params;
-        const Booking = await getBookingById(id);
+        const booking = await getBookingById(id);
 
-        if (!category) {
+        if (!booking) {
             res.status(404).json({ message: `Booking with id ${id} not found` });
         } else {
-            res.status(200).json(Booking);
+            res.status(200).json(booking);
         }
     } catch (error) {
         next(error);
@@ -88,10 +88,25 @@ router.get("/:id", async (req, res, next) => {
 router.put("/:id", auth, async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { name } = req.body;
-        const Booking = await updateBookingById(id, { name });
+        const {            
+            userId,        
+            propertyId,
+            checkinDate,
+            checkoutDate,
+            numberOfGuests,
+            totalPrice,
+            bookingStatus,  } = req.body;
+        const booking = await updateBookingById(id, { 
+            userId,        
+            propertyId,
+            checkinDate,
+            checkoutDate,
+            numberOfGuests,
+            totalPrice,
+            bookingStatus,
+         });
 
-        if (Booking) {
+        if (booking) {
             res.status(200).send({
                 message: `Booking with id ${id} successfully updated`,
             });

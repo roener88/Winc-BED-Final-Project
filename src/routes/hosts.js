@@ -25,12 +25,12 @@ router.post("/", async (req, res, next) => {
 router.delete("/:id", auth, async (req, res, next) => {
     try {
         const { id } = req.params;
-        const Host = await deleteHostById(id);
+        const host = await deleteHostById(id);
 
-        if (Host) {
+        if (host) {
             res.status(200).send({
                 message: `Host with id ${id} successfully deleted`,
-                Host,
+                host,
             });
         } else {
             res.status(404).json({
@@ -56,12 +56,12 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
     try {
         const { id } = req.params;
-        const Host = await getHostById(id);
+        const host = await getHostById(id);
 
-        if (!category) {
+        if (!host) {
             res.status(404).json({ message: `Host with id ${id} not found` });
         } else {
-            res.status(200).json(Host);
+            res.status(200).json(host);
         }
     } catch (error) {
         next(error);
@@ -74,9 +74,9 @@ router.put("/:id", auth, async (req, res, next) => {
     try {
         const { id } = req.params;
         const { name } = req.body;
-        const Host = await updateHostById(id, { name });
+        const host = await updateHostById(id, { name });
 
-        if (Host) {
+        if (host) {
             res.status(200).send({
                 message: `Host with id ${id} successfully updated`,
             });
