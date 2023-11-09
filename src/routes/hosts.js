@@ -10,10 +10,26 @@ import auth from "../middleware/auth.js";
 
 const router = Router();
 
-router.post("/", async (req, res, next) => {
+router.post("/", auth, async (req, res, next) => {
     try {
-        const { name } = req.body;
-        const newHost = await createHost(name);
+        const {
+            username,
+            password,
+            name,
+            email,
+            phoneNumber,
+            profilePicture,
+            aboutMe,
+        } = req.body;
+        const newHost = await createHost(
+            username,
+            password,
+            name,
+            email,
+            phoneNumber,
+            profilePicture,
+            aboutMe,
+        );
 
         res.status(201).json(newHost);
 
@@ -44,7 +60,8 @@ router.delete("/:id", auth, async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
     try {
-        const hosts = await getHosts();
+        const { name } = req.query;
+        const hosts = await getHosts(name);
         res.json(hosts);
     } catch (error) {
         next(error);
@@ -73,8 +90,24 @@ router.get("/:id", async (req, res, next) => {
 router.put("/:id", auth, async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { name } = req.body;
-        const host = await updateHostById(id, { name });
+        const {
+            username,
+            password,
+            name,
+            email,
+            phoneNumber,
+            profilePicture,
+            aboutMe,
+        } = req.body;
+        const host = await updateHostById(id, {
+            username,
+            password,
+            name,
+            email,
+            phoneNumber,
+            profilePicture,
+            aboutMe,
+        });
 
         if (host) {
             res.status(200).send({

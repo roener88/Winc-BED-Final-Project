@@ -10,10 +10,24 @@ import auth from "../middleware/auth.js";
 
 const router = Router();
 
-router.post("/", async (req, res, next) => {
+router.post("/", auth, async (req, res, next) => {
     try {
-        const { name } = req.body;
-        const newUser = await createUser(name);
+        const {
+            username,
+            password,
+            name,
+            email,
+            phoneNumber,
+            profilePicture,
+        } = req.body;
+        const newUser = await createUser(
+            username,
+            password,
+            name,
+            email,
+            phoneNumber,
+            profilePicture,
+        );
 
         res.status(201).json(newUser);
 
@@ -44,7 +58,8 @@ router.delete("/:id", auth, async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
     try {
-        const users = await getUsers();
+        const { username, email } = req.query;
+        const users = await getUsers(username, email);
         res.json(users);
     } catch (error) {
         next(error);
@@ -73,8 +88,22 @@ router.get("/:id", async (req, res, next) => {
 router.put("/:id", auth, async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { name } = req.body;
-        const user = await updateUserById(id, { name });
+        const {
+            username,
+            password,
+            name,
+            email,
+            phoneNumber,
+            profilePicture,
+        } = req.body;
+        const user = await updateUserById(id, {
+            username,
+            password,
+            name,
+            email,
+            phoneNumber,
+            profilePicture,
+        });
 
         if (user) {
             res.status(200).send({

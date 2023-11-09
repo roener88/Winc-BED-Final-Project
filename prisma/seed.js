@@ -39,6 +39,21 @@ async function main() {
             where: { id: booking.id },
             update: {},
             create: booking,
+
+            // {
+            //     userId: {
+            //         connect: { id: booking.userId },
+            //     },
+            //     propertyId: {
+            //         connect: { id: booking.propertyId },
+            //     },
+            //     checkinDate: booking.checkinDate,
+            //     checkoutDate: booking.checkoutDate,
+            //     numberOfGuests: booking.numberOfGuests,
+            //     totalPrice: booking.totalPrice,
+            //     bookingStatus: booking.bookingStatus,
+
+            // }
         });
     }
 

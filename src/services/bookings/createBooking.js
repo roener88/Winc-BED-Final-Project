@@ -10,23 +10,44 @@ const createBooking = async (
     bookingStatus
 ) => {
     const prisma = new PrismaClient();
-    const newBooking = {
-        userId: {
-            connect: { id: userId }
-        },
-        propertyId: {
-            connect: { id: propertyId }
-        },
-        checkinDate,
-        checkoutDate,
-        numberOfGuests,
-        totalPrice,
-        bookingStatus
-    };
-
     const booking = await prisma.booking.create({
-        data: newBooking,
-    });
+        data: {
+            // userId: {
+            //     connect: { id: userId }
+            // },
+            // propertyId: {
+            //     connect: { id: propertyId }
+            // },
+            userId,
+            propertyId,
+            checkinDate,
+            checkoutDate,
+            numberOfGuests,
+            totalPrice,
+            bookingStatus,
+        }
+    })
+
+
+    // I get an error when trying to connect to 'user' and 'property'
+
+    // const newBooking = {
+    //     userId: {
+    //         connect: { id: userId }
+    //     },
+    //     propertyId: {
+    //         connect: { id: propertyId }
+    //     },
+    //     checkinDate,
+    //     checkoutDate,
+    //     numberOfGuests,
+    //     totalPrice,
+    //     bookingStatus
+    // };
+
+    // const booking = await prisma.booking.create({
+    //     data: newBooking,
+    // });
 
     return booking;
 };

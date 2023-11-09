@@ -13,9 +13,8 @@ datasource db {
 }
 
 model Amenity {
-  id         String  @id @default(uuid())
-  name       String
-  propertyId String?
+  id   String @id @default(uuid())
+  name String
 
   properties Property[]
 }
@@ -93,5 +92,5 @@ model User {
   phoneNumber    String
   profilePicture String
   reviews        Review[]
-  Booking        Booking[]
+  bookings       Booking[]
 }

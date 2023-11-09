@@ -10,10 +10,30 @@ import auth from "../middleware/auth.js";
 
 const router = Router();
 
-router.post("/", async (req, res, next) => {
+router.post("/", auth, async (req, res, next) => {
     try {
-        const { name } = req.body;
-        const newProperty = await createProperty(name);
+        const {
+            title,
+            description,
+            location,
+            pricePerNight,
+            bedroomCount,
+            bathRoomCount,
+            maxGuestCount,
+            hostId,
+            rating,
+        } = req.body;
+        const newProperty = await createProperty(
+            title,
+            description,
+            location,
+            pricePerNight,
+            bedroomCount,
+            bathRoomCount,
+            maxGuestCount,
+            hostId,
+            rating,
+        );
 
         res.status(201).json(newProperty);
 
@@ -30,7 +50,7 @@ router.delete("/:id", auth, async (req, res, next) => {
         if (property) {
             res.status(200).send({
                 message: `Property with id ${id} successfully deleted`,
-                Property,
+                property,
             });
         } else {
             res.status(404).json({
@@ -44,7 +64,8 @@ router.delete("/:id", auth, async (req, res, next) => {
 
 router.get("/", async (req, res, next) => {
     try {
-        const properties = await getProperties();
+        const { location, pricePerNight, amenities } = req.query;
+        const properties = await getProperties(location, pricePerNight, amenities);
         res.json(properties);
     } catch (error) {
         next(error);
@@ -73,8 +94,28 @@ router.get("/:id", async (req, res, next) => {
 router.put("/:id", auth, async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { name } = req.body;
-        const property = await updatePropertyById(id, { name });
+        const {
+            title,
+            description,
+            location,
+            pricePerNight,
+            bedroomCount,
+            bathRoomCount,
+            maxGuestCount,
+            hostId,
+            rating,
+        } = req.body;
+        const property = await updatePropertyById(id, {
+            title,
+            description,
+            location,
+            pricePerNight,
+            bedroomCount,
+            bathRoomCount,
+            maxGuestCount,
+            hostId,
+            rating,
+        });
 
         if (property) {
             res.status(200).send({

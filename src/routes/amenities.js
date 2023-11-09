@@ -10,7 +10,7 @@ import auth from "../middleware/auth.js";
 
 const router = Router();
 
-router.post("/", async (req, res, next) => {
+router.post("/", auth, async (req, res, next) => {
     try {
         const { name } = req.body;
         const newAmenity = await createAmenity(name);
