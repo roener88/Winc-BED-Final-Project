@@ -12,6 +12,7 @@ const router = Router();
 
 router.post("/", auth, async (req, res, next) => {
     try {
+
         const {
             username,
             password,
