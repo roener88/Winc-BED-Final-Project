@@ -12,10 +12,21 @@ const router = Router();
 
 router.post("/", auth, async (req, res, next) => {
     try {
-        const { name } = req.body;
-        const newAmenity = await createAmenity(name);
 
-        res.status(201).json(newAmenity);
+
+        if (Object.hasOwn(req.body, 'name')) {
+
+            const { name } = req.body;
+            const newAmenity = await createAmenity(name);
+            res.status(201).json(newAmenity);
+        }
+
+        else {
+
+            res.status(400).json({
+                message: `Bad Request`,
+            });
+        }
 
     } catch (error) {
         next(error);

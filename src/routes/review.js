@@ -12,20 +12,34 @@ const router = Router();
 
 router.post("/", auth, async (req, res, next) => {
     try {
-        const {
-            userId,
-            propertyId,
-            rating,
-            comment,
-        } = req.body;
-        const newReview = await createReview(
-            userId,
-            propertyId,
-            rating,
-            comment,
-        );
+        if (
+            Object.hasOwn(req.body, 'userId') &&
+            Object.hasOwn(req.body, 'propertyId') &&
+            Object.hasOwn(req.body, 'rating') &&
+            Object.hasOwn(req.body, 'comment')
+        ) {
+            const {
+                userId,
+                propertyId,
+                rating,
+                comment,
+            } = req.body;
+            const newReview = await createReview(
+                userId,
+                propertyId,
+                rating,
+                comment,
+            );
 
-        res.status(201).json(newReview);
+            res.status(201).json(newReview);
+        }
+
+        else {
+
+            res.status(400).json({
+                message: `Bad Request`,
+            });
+        }
 
     } catch (error) {
         next(error);

@@ -12,30 +12,52 @@ const router = Router();
 
 router.post("/", auth, async (req, res, next) => {
     try {
-        const {
-            title,
-            description,
-            location,
-            pricePerNight,
-            bedroomCount,
-            bathRoomCount,
-            maxGuestCount,
-            hostId,
-            rating,
-        } = req.body;
-        const newProperty = await createProperty(
-            title,
-            description,
-            location,
-            pricePerNight,
-            bedroomCount,
-            bathRoomCount,
-            maxGuestCount,
-            hostId,
-            rating,
-        );
 
-        res.status(201).json(newProperty);
+
+        if (
+            Object.hasOwn(req.body, 'title') &&
+            Object.hasOwn(req.body, 'description') &&
+            Object.hasOwn(req.body, 'location') &&
+            Object.hasOwn(req.body, 'pricePerNight') &&
+            Object.hasOwn(req.body, 'bedroomCount') &&
+            Object.hasOwn(req.body, 'bathRoomCount') &&
+            Object.hasOwn(req.body, 'maxGuestCount') &&
+            Object.hasOwn(req.body, 'hostId') &&
+            Object.hasOwn(req.body, 'rating')
+
+        ) {
+            const {
+                title,
+                description,
+                location,
+                pricePerNight,
+                bedroomCount,
+                bathRoomCount,
+                maxGuestCount,
+                hostId,
+                rating,
+            } = req.body;
+            const newProperty = await createProperty(
+                title,
+                description,
+                location,
+                pricePerNight,
+                bedroomCount,
+                bathRoomCount,
+                maxGuestCount,
+                hostId,
+                rating,
+            );
+
+            res.status(201).json(newProperty);
+        }
+
+        else {
+
+            res.status(400).json({
+                message: `Bad Request`,
+            });
+        }
 
     } catch (error) {
         next(error);

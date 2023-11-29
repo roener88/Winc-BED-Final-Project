@@ -13,26 +13,47 @@ const router = Router();
 router.post("/", auth, async (req, res, next) => {
     try {
 
-        const {
-            username,
-            password,
-            name,
-            email,
-            phoneNumber,
-            profilePicture,
-        } = req.body;
-        const newUser = await createUser(
-            username,
-            password,
-            name,
-            email,
-            phoneNumber,
-            profilePicture,
-        );
+        if (
+            Object.hasOwn(req.body, 'username') &&
+            Object.hasOwn(req.body, 'password') &&
+            Object.hasOwn(req.body, 'name') &&
+            Object.hasOwn(req.body, 'email') &&
+            Object.hasOwn(req.body, 'phoneNumber') &&
+            Object.hasOwn(req.body, 'profilePicture')
 
-        res.status(201).json(newUser);
+        ) {
+
+            const {
+                username,
+                password,
+                name,
+                email,
+                phoneNumber,
+                profilePicture,
+            } = req.body;
+
+            const newUser = await createUser(
+                username,
+                password,
+                name,
+                email,
+                phoneNumber,
+                profilePicture,
+            );
+
+            res.status(201).json(newUser);
+
+        }
+
+        else {
+
+            res.status(400).json({
+                message: `Bad Request`,
+            });
+        }
 
     } catch (error) {
+
         next(error);
     }
 });

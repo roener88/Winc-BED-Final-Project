@@ -12,25 +12,45 @@ const router = Router();
 
 router.post("/", auth, async (req, res, next) => {
     try {
-        const {
-            userId,
-            propertyId,
-            checkinDate,
-            checkoutDate,
-            numberOfGuests,
-            totalPrice,
-            bookingStatus } = req.body;
-        const newBooking = await createBooking(
-            userId,
-            propertyId,
-            checkinDate,
-            checkoutDate,
-            numberOfGuests,
-            totalPrice,
-            bookingStatus
-        );
 
-        res.status(201).json(newBooking);
+        if (
+            Object.hasOwn(req.body, 'userId') &&
+            Object.hasOwn(req.body, 'propertyId') &&
+            Object.hasOwn(req.body, 'checkinDate') &&
+            Object.hasOwn(req.body, 'checkoutDate') &&
+            Object.hasOwn(req.body, 'numberOfGuests') &&
+            Object.hasOwn(req.body, 'totalPrice') &&
+            Object.hasOwn(req.body, 'bookingStatus')
+
+        ) {
+            const {
+                userId,
+                propertyId,
+                checkinDate,
+                checkoutDate,
+                numberOfGuests,
+                totalPrice,
+                bookingStatus } = req.body;
+
+            const newBooking = await createBooking(
+                userId,
+                propertyId,
+                checkinDate,
+                checkoutDate,
+                numberOfGuests,
+                totalPrice,
+                bookingStatus
+            );
+
+            res.status(201).json(newBooking);
+        }
+
+        else {
+
+            res.status(400).json({
+                message: `Bad Request`,
+            });
+        }
 
     } catch (error) {
         next(error);
