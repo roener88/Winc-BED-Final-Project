@@ -14,27 +14,27 @@ datasource db {
 }
 
 model User {
-  id          String @id @default(uuid())
-  username    String @unique
-  password    String
-  name        String
-  email       String
-  phoneNumber String
-  pictureUrl  String
+  id              String @id @default(uuid())
+  username        String @unique
+  password        String
+  name            String
+  email           String
+  phoneNumber     String
+  profilePicture  String
 
   bookings Booking[]
   Review   Review[]
 }
 
 model Host {
-  id          String @id @default(uuid())
-  username    String @unique
-  password    String
-  name        String
-  email       String
-  phoneNumber String
-  pictureUrl  String
-  aboutMe     String
+  id              String @id @default(uuid())
+  username        String @unique
+  password        String
+  name            String
+  email           String
+  phoneNumber     String
+  profilePicture  String
+  aboutMe         String
 
   listings Property[]
 }
@@ -57,9 +57,6 @@ model Booking {
 
 model Property {
   id String @id @default(uuid())
-
-  hostId String
-
   title         String
   description   String
   location      String
@@ -67,12 +64,15 @@ model Property {
   bedroomCount  Int
   bathroomCount Int
   maxGuestCount Int
+
+  hostId String
+
   rating        Int
 
   host Host @relation(fields: [hostId], references: [id])
 
   bookings Booking[]
-  Review   Review[]
+  reviews   Review[]
 }
 
 model Amenity {

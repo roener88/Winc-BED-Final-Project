@@ -11,21 +11,13 @@ const prisma = new PrismaClient({ log: ['query', 'info', 'warn', 'error']});
 
 async function  main() {
 
-    const { users } = userData;
     const { hosts } = hostData;
-    const { bookings } = bookingData;
+    const { users } = userData;
     const { properties } = propertyData;
+    const { bookings } = bookingData;
     const { amenities } = amenityData;
     const { reviews } = reviewData;
     
-    for( const user of users ) {
-        await prisma.user.upsert({
-            where: { id: user.id },
-            update: {},
-            create: user
-        })
-    }
-
     for( const host of hosts ) {
         await prisma.host.upsert({
             where: { id: host.id },
@@ -34,11 +26,11 @@ async function  main() {
         })
     }
 
-    for( const booking of bookings ) {
-        await prisma.booking.upsert({
-            where: { id: booking.id },
+    for( const user of users ) {
+        await prisma.user.upsert({
+            where: { id: user.id },
             update: {},
-            create: booking
+            create: user
         })
     }
 
@@ -47,6 +39,14 @@ async function  main() {
             where: { id: property.id },
             update: {},
             create: property
+        })
+    }
+
+    for( const booking of bookings ) {
+        await prisma.booking.upsert({
+            where: { id: booking.id },
+            update: {},
+            create: booking
         })
     }
 
