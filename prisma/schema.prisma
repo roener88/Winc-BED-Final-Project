@@ -22,7 +22,7 @@ model User {
   phoneNumber String
   pictureUrl  String
 
-  Booking Booking[]
+  bookings Booking[]
 }
 
 model Host {
@@ -70,7 +70,7 @@ model Property {
 
   host Host @relation(fields: [hostId], references: [id])
 
-  Booking Booking[]
+  bookings Booking[]
 }
 
 model Amenity {
