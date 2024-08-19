@@ -70,7 +70,8 @@ app.get('/reviews', async (req, res) => {
 // User Routes
 app.get('/users', async (req, res) => {
   try {
-    const users = await getUsers();
+    const { username, email } = req.query;
+    const users = await getUsers( username, email );
     res.status(200).json(users);
   } catch (error) {
     console.error(error);
