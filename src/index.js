@@ -1,12 +1,16 @@
-import express from "express";
+import express, { response } from "express";
 import getAmenities from "./services/amenities/getAmenities.js";
 import getBookings from "./services/bookings/getBookings.js";
 import getHosts from "./services/hosts/getHosts.js";
 import getProperties from "./services/properties/getProperties.js";
 import getReviews from "./services/reviews/getReviews.js";
+
 import getUsers from "./services/users/getUsers.js";
+import createUser from "./services/users/createUser.js";
 
 const app = express();
+
+app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("Hello world!");
@@ -81,7 +85,17 @@ app.get('/users', async (req, res) => {
   }
 });
 
-
+app.post('/users', async( req, res ) => {
+  try {
+    console.log(req.body);
+    const { username, password, name, email, phoneNumber, profilePicture } = req.body;
+    const newUser = await createUser( username, password, name, email, phoneNumber, profilePicture );
+    res.status(201).json(newUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Something went wrong while creating a new user");
+  }
+});
 
 
 app.listen(3000, () => {
