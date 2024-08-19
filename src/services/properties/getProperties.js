@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 const getProperties = async () => {
-    const prisma = new PrismaClient();
 
     return prisma.property.findMany();
 }

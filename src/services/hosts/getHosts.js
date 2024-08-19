@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 const getHosts = async ( name ) => {
-    const prisma = new PrismaClient();
 
     return prisma.host.findMany({
         where: {
