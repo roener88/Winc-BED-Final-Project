@@ -26,7 +26,8 @@ app.get('/amenities', async (req, res) => {
 // Booking Routes
 app.get('/bookings', async (req, res) => {
   try {
-    const bookings = await getBookings();
+    const { userId } = req.query;
+    const bookings = await getBookings( userId );
     res.status(200).json(bookings);
   } catch (error) {
     console.error(error);
