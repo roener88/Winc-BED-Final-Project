@@ -2,6 +2,7 @@ import express from "express";
 import getAmenities from "./services/amenities/getAmenities.js";
 import getBookings from "./services/bookings/getBookings.js";
 import getHosts from "./services/hosts/getHosts.js";
+import getProperties from "./services/properties/getProperties.js";
 import getUsers from "./services/users/getUsers.js";
 
 const app = express();
@@ -40,6 +41,17 @@ app.get('/hosts', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Something went wrong while getting the list of hosts");
+  }
+});
+
+// Property Routes
+app.get('/properties', async (req, res) => {
+  try {
+    const properties = await getProperties();
+    res.status(200).json(properties);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Something went wrong while getting the list of properties");
   }
 });
 
