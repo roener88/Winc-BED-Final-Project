@@ -6,6 +6,7 @@ import getProperties from "./services/properties/getProperties.js";
 import getReviews from "./services/reviews/getReviews.js";
 
 import getUsers from "./services/users/getUsers.js";
+import getUserById from "./services/users/getUserById.js";
 import createUser from "./services/users/createUser.js";
 
 const app = express();
@@ -82,6 +83,23 @@ app.get('/users', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Something went wrong while getting the list of users");
+  }
+});
+
+app.get('/users/:id', async ( req, res ) => {
+  try {
+    const { id } = req.params;
+    const user = await getUserById( id );
+
+    if(!user) {
+      res.status(404).send(`Book with id ${id} was not found`);
+    } else {
+      res.status(200).json(user);
+    }
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Something went wrong while getting user by id");
   }
 });
 
