@@ -3,6 +3,7 @@ import getAmenities from "./services/amenities/getAmenities.js";
 import getBookings from "./services/bookings/getBookings.js";
 import getHosts from "./services/hosts/getHosts.js";
 import getProperties from "./services/properties/getProperties.js";
+import getReviews from "./services/reviews/getReviews.js";
 import getUsers from "./services/users/getUsers.js";
 
 const app = express();
@@ -52,6 +53,17 @@ app.get('/properties', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).send("Something went wrong while getting the list of properties");
+  }
+});
+
+// Review Routes
+app.get('/reviews', async (req, res) => {
+  try {
+    const reviews = await getReviews();
+    res.status(200).json(reviews);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Something went wrong while getting the list of reviews");
   }
 });
 
