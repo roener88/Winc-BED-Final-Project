@@ -37,7 +37,8 @@ app.get('/bookings', async (req, res) => {
 // Host Routes
 app.get('/hosts', async (req, res) => {
   try {
-    const hosts = await getHosts();
+    const { name } = req.query;
+    const hosts = await getHosts( name );
     res.status(200).json(hosts);
   } catch (error) {
     console.error(error);
