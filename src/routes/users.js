@@ -3,6 +3,7 @@ import express from 'express';
 import getUsers from '../services/users/getUsers.js';
 import getUserById from '../services/users/getUserById.js';
 import createUser from '../services/users/createUser.js';
+import updateUserById from '../services/users/updateUserById.js';
 
 const router = express.Router();
 
@@ -43,6 +44,18 @@ router.post('/', async( req, res ) => {
     } catch (error) {
         console.error(error);
         res.status(500).send("Something went wrong while creating a new user");
+    }
+});
+
+router.put('/:id', async ( req, res ) => {
+    try {
+        const { id } = req.params;
+        const { username, password, name, email, phoneNumber, profilePicture } = req.body;
+        const updatedUser = await updateUserById( id, username, password, name, email, phoneNumber, profilePicture );
+        res.status(200).json( updatedUser );
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Something went wrong while updating user by id');
     }
 });
 
