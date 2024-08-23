@@ -4,6 +4,7 @@ import getAmenities from "../services/amenities/getAmenities.js";
 import getAmenityById from "../services/amenities/getAmenityById.js";
 import createAmenity from "../services/amenities/createAmenity.js";
 import updateAmenityById from "../services/amenities/updateAmenityById.js";
+import deleteAmenityById from "../services/amenities/deleteAmenityById.js";
 
 const router = express.Router();
 
@@ -54,6 +55,20 @@ router.put('/:id', async ( req, res ) => {
   } catch (error) {
       console.error(error);
       res.status(500).send('Something went wrong while updating amenity by id');
+  }
+});
+
+router.delete('/:id', async ( req, res ) => {
+  try {
+      const { id } = req.params;
+      const deletedAmenityId = await deleteAmenityById( id );
+
+      res.status(200).json({
+          message: `Amenity with id ${deletedAmenityId} was deleted!`
+      });
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Something went wrong while deleting amenity by id');
   }
 });
 
