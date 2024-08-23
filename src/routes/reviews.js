@@ -4,6 +4,7 @@ import getReviews from "../services/reviews/getReviews.js";
 import createReview from "../services/reviews/createReview.js";
 import getReviewById from "../services/reviews/getReviewById.js";
 import updateReviewById from "../services/reviews/updateReviewById.js";
+import deleteReviewById from "../services/reviews/deleteReviewById.js";
 
 const router = express.Router();
 
@@ -54,6 +55,20 @@ router.put('/:id', async ( req, res ) => {
     } catch (error) {
         console.error(error);
         res.status(500).send('Something went wrong while updating review by id');
+    }
+});
+
+router.delete('/:id', async ( req, res ) => {
+    try {
+        const { id } = req.params;
+        const deletedReviewId = await deleteReviewById( id );
+
+        res.status(200).json({
+            message: `User with id ${deletedReviewId} was deleted!`
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Something went wrong while deleting user by id');
     }
 });
 
