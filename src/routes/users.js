@@ -4,6 +4,7 @@ import getUsers from '../services/users/getUsers.js';
 import getUserById from '../services/users/getUserById.js';
 import createUser from '../services/users/createUser.js';
 import updateUserById from '../services/users/updateUserById.js';
+import deleteUserById from '../services/users/deleteUserById.js';
 
 const router = express.Router();
 
@@ -56,6 +57,20 @@ router.put('/:id', async ( req, res ) => {
     } catch (error) {
         console.error(error);
         res.status(500).send('Something went wrong while updating user by id');
+    }
+});
+
+router.delete('/:id', async ( req, res ) => {
+    try {
+        const { id } = req.params;
+        const deletedUserId = await deleteUserById( id );
+
+        res.status(200).json({
+            message: `User with id ${deletedUserId} was deleted!`
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Something went wrong while deleting user by id');
     }
 });
 
