@@ -3,6 +3,7 @@ import express from "express";
 import getReviews from "../services/reviews/getReviews.js";
 import createReview from "../services/reviews/createReview.js";
 import getReviewById from "../services/reviews/getReviewById.js";
+import updateReviewById from "../services/reviews/updateReviewById.js";
 
 const router = express.Router();
 
@@ -41,6 +42,18 @@ router.post('/', async( req, res ) => {
     } catch (error) {
         console.error(error);
         res.status(500).send("Something went wrong while creating a new review");
+    }
+});
+
+router.put('/:id', async ( req, res ) => {
+    try {
+        const { id } = req.params;
+        const { userId, propertyId, rating, comment } = req.body;
+        const updatedReview = await updateReviewById( id, userId, propertyId, rating, comment );
+        res.status(200).json( updatedReview );
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Something went wrong while updating review by id');
     }
 });
 
