@@ -25,7 +25,7 @@ router.get('/:id', async ( req, res ) => {
         const user = await getUserById( id );
 
         if(!user) {
-        res.status(404).send(`Book with id ${id} was not found`);
+        res.status(404).send(`User with id ${id} was not found`);
         } else {
         res.status(200).json(user);
         }
