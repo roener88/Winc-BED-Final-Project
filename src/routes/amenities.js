@@ -3,6 +3,7 @@ import express from "express";
 import getAmenities from "../services/amenities/getAmenities.js";
 import getAmenityById from "../services/amenities/getAmenityById.js";
 import createAmenity from "../services/amenities/createAmenity.js";
+import updateAmenityById from "../services/amenities/updateAmenityById.js";
 
 const router = express.Router();
 
@@ -41,6 +42,18 @@ router.post('/', async( req, res ) => {
   } catch (error) {
       console.error(error);
       res.status(500).send("Something went wrong while creating a new amenity");
+  }
+});
+
+router.put('/:id', async ( req, res ) => {
+  try {
+      const { id } = req.params;
+      const { name } = req.body;
+      const updatedAmenity = await updateAmenityById( id, name );
+      res.status(200).json( updatedAmenity );
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Something went wrong while updating amenity by id');
   }
 });
 
