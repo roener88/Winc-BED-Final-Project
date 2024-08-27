@@ -2,6 +2,7 @@ import express from "express";
 
 import getProperties from "../services/properties/getProperties.js";
 import getPropertyById from "../services/properties/getPropertyById.js";
+import createProperty from "../services/properties/createProperty.js";
 
 const router = express.Router();
 
@@ -29,6 +30,17 @@ router.get('/:id', async ( req, res ) => {
     } catch (error) {
         console.error(error);
         res.status(500).send("Something went wrong while getting property by id");
+    }
+});
+
+router.post('/', async( req, res ) => {
+    try {
+        const { title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating } = req.body;
+        const newProperty = await createProperty( title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating );
+        res.status(201).json( newProperty );
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Something went wrong while creating a new property");
     }
 });
 
