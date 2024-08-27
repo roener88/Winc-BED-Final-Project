@@ -4,6 +4,7 @@ import getBookings from "../services/bookings/getBookings.js";
 import getBookingById from "../services/bookings/getBookingById.js";
 import createBooking from "../services/bookings/createBooking.js";
 import updateBookingById from "../services/bookings/updateBookingById.js";
+import deleteBookingById from "../services/bookings/deleteBookingById.js";
 
 const router = express.Router();
 
@@ -55,6 +56,20 @@ router.put('/:id', async ( req, res ) => {
     } catch (error) {
         console.error(error);
         res.status(500).send('Something went wrong while updating booking by id');
+    }
+});
+
+router.delete('/:id', async ( req, res ) => {
+    try {
+        const { id } = req.params;
+        const deletedBookingId = await deleteBookingById( id );
+  
+        res.status(200).json({
+            message: `Booking with id ${deletedBookingId} was deleted!`
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Something went wrong while deleting booking by id');
     }
 });
 
