@@ -3,6 +3,7 @@ import express from "express";
 import getHosts from "../services/hosts/getHosts.js";
 import getHostById from "../services/hosts/getHostById.js";
 import createHost from "../services/hosts/createHost.js";
+import updateHostById from "../services/hosts/updateHostById.js";
 
 const router = express.Router();
 
@@ -42,6 +43,18 @@ router.post('/', async( req, res ) => {
     } catch (error) {
         console.error(error);
         res.status(500).send("Something went wrong while creating a new host");
+    }
+});
+
+router.put('/:id', async ( req, res ) => {
+    try {
+        const { id } = req.params;
+        const { username, password, name, email, phoneNumber, profilePicture, aboutMe } = req.body;
+        const updatedHost = await updateHostById( id, username, password, name, email, phoneNumber, profilePicture, aboutMe );
+        res.status(200).json( updatedHost );
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Something went wrong while updating host by id');
     }
 });
 

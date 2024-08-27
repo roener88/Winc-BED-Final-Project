@@ -38,7 +38,6 @@ router.get('/:id', async ( req, res ) => {
 
 router.post('/', async( req, res ) => {
     try {
-        console.log(req.body);
         const { username, password, name, email, phoneNumber, profilePicture } = req.body;
         const newUser = await createUser( username, password, name, email, phoneNumber, profilePicture );
         res.status(201).json(newUser);
