@@ -3,6 +3,7 @@ import express from "express";
 import getProperties from "../services/properties/getProperties.js";
 import getPropertyById from "../services/properties/getPropertyById.js";
 import createProperty from "../services/properties/createProperty.js";
+import updatePropertyById from "../services/properties/updatePropertyById.js";
 
 const router = express.Router();
 
@@ -41,6 +42,18 @@ router.post('/', async( req, res ) => {
     } catch (error) {
         console.error(error);
         res.status(500).send("Something went wrong while creating a new property");
+    }
+});
+
+router.put('/:id', async ( req, res ) => {
+    try {
+        const { id } = req.params;
+        const { title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating } = req.body;
+        const updatedProperty = await updatePropertyById( id, title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating );
+        res.status(200).json( updatedProperty );
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Something went wrong while updating property by id');
     }
 });
 
