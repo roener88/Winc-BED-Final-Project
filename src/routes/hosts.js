@@ -2,6 +2,7 @@ import express from "express";
 
 import getHosts from "../services/hosts/getHosts.js";
 import getHostById from "../services/hosts/getHostById.js";
+import createHost from "../services/hosts/createHost.js";
 
 const router = express.Router();
 
@@ -30,6 +31,17 @@ router.get('/:id', async ( req, res ) => {
     } catch (error) {
         console.error(error);
         res.status(500).send("Something went wrong while getting host by id");
+    }
+});
+
+router.post('/', async( req, res ) => {
+    try {
+        const { username, password, name, email, phoneNumber, profilePicture, aboutMe } = req.body;
+        const newHost = await createHost( username, password, name, email, phoneNumber, profilePicture, aboutMe );
+        res.status(201).json( newHost );
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Something went wrong while creating a new host");
     }
 });
 
