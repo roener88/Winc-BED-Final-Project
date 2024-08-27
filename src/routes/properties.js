@@ -4,6 +4,7 @@ import getProperties from "../services/properties/getProperties.js";
 import getPropertyById from "../services/properties/getPropertyById.js";
 import createProperty from "../services/properties/createProperty.js";
 import updatePropertyById from "../services/properties/updatePropertyById.js";
+import deletePropertyById from "../services/properties/deletePropertyById.js";
 
 const router = express.Router();
 
@@ -54,6 +55,20 @@ router.put('/:id', async ( req, res ) => {
     } catch (error) {
         console.error(error);
         res.status(500).send('Something went wrong while updating property by id');
+    }
+});
+
+router.delete('/:id', async ( req, res ) => {
+    try {
+        const { id } = req.params;
+        const deletedPropertyId = await deletePropertyById( id );
+  
+        res.status(200).json({
+            message: `Property with id ${deletedPropertyId} was deleted!`
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Something went wrong while deleting property by id');
     }
 });
 
