@@ -3,6 +3,7 @@ import express from "express";
 import getBookings from "../services/bookings/getBookings.js";
 import getBookingById from "../services/bookings/getBookingById.js";
 import createBooking from "../services/bookings/createBooking.js";
+import updateBookingById from "../services/bookings/updateBookingById.js";
 
 const router = express.Router();
 
@@ -42,6 +43,18 @@ router.post('/', async( req, res ) => {
     } catch (error) {
         console.error(error);
         res.status(500).send("Something went wrong while creating a new booking");
+    }
+});
+
+router.put('/:id', async ( req, res ) => {
+    try {
+        const { id } = req.params;
+        const { userId, propertyId, checkinDate, checkoutDate, numberOfGuests, totalPrice, bookingStatus } = req.body;
+        const updatedBooking = await updateBookingById( id, userId, propertyId, checkinDate, checkoutDate, numberOfGuests, totalPrice, bookingStatus );
+        res.status(200).json( updatedBooking );
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Something went wrong while updating booking by id');
     }
 });
 
