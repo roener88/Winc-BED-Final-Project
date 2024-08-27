@@ -4,6 +4,7 @@ import getHosts from "../services/hosts/getHosts.js";
 import getHostById from "../services/hosts/getHostById.js";
 import createHost from "../services/hosts/createHost.js";
 import updateHostById from "../services/hosts/updateHostById.js";
+import deleteHostById from "../services/hosts/deleteHostById.js";
 
 const router = express.Router();
 
@@ -55,6 +56,20 @@ router.put('/:id', async ( req, res ) => {
     } catch (error) {
         console.error(error);
         res.status(500).send('Something went wrong while updating host by id');
+    }
+});
+
+router.delete('/:id', async ( req, res ) => {
+    try {
+        const { id } = req.params;
+        const deletedHostId = await deleteHostById( id );
+  
+        res.status(200).json({
+            message: `Host with id ${deletedHostId} was deleted!`
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Something went wrong while deleting host by id');
     }
 });
 
