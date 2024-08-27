@@ -2,6 +2,7 @@ import express from "express";
 
 import getBookings from "../services/bookings/getBookings.js";
 import getBookingById from "../services/bookings/getBookingById.js";
+import createBooking from "../services/bookings/createBooking.js";
 
 const router = express.Router();
 
@@ -30,6 +31,17 @@ router.get('/:id', async ( req, res ) => {
     } catch (error) {
         console.error(error);
         res.status(500).send("Something went wrong while getting booking by id");
+    }
+});
+
+router.post('/', async( req, res ) => {
+    try {
+        const { userId, propertyId, checkinDate, checkoutDate, numberOfGuests, totalPrice, bookingStatus } = req.body;
+        const newBooking = await createBooking( userId, propertyId, checkinDate, checkoutDate, numberOfGuests, totalPrice, bookingStatus );
+        res.status(201).json( newBooking );
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Something went wrong while creating a new booking");
     }
 });
 
