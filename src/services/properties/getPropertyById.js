@@ -7,6 +7,9 @@ const getPropertyById = async ( id ) => {
     const property = await prisma.property.findUnique({
         where: {
             id
+        },
+        include: {
+            amenities: true,
         }
     });
 
