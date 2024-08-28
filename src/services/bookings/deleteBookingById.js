@@ -11,6 +11,7 @@ const deleteBookingById = async ( id ) => {
 
     if(!deletedBooking || deletedBooking.count === 0 ) {
         console.log(`Booking with id ${id} was not deleted`);
+        return -1;
     }
 
     return id;

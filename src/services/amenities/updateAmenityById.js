@@ -15,6 +15,7 @@ const updateAmenityById = async ( id, name ) => {
     
     if( !updatedAmenity || updatedAmenity.count === 0 ) {
         console.log(`Amenity with id ${id} was not found`);
+        return -1
     }
 
     return {

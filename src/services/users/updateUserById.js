@@ -20,6 +20,7 @@ const updateUserById = async ( id, username, password, name, email, phoneNumber,
     
     if( !updatedUser || updatedUser.count === 0 ) {
         console.log(`User with id ${id} was not found`);
+        return -1;
     }
 
     return {

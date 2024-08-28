@@ -10,7 +10,7 @@ const deleteHostById = async ( id ) => {
     });
 
     if(!deletedHost || deletedHost.count === 0 ) {
-        console.log(`Host with id ${id} was not deleted`);
+        return -1;
     }
 
     return id;

@@ -52,7 +52,13 @@ router.put('/:id', authMiddleware, async ( req, res ) => {
       const { id } = req.params;
       const { name } = req.body;
       const updatedAmenity = await updateAmenityById( id, name );
-      res.status(200).json( updatedAmenity );
+
+      if( updatedAmenity === -1 ){
+        res.status(404).json(`Amenity with id ${id} was not found`);
+      } else {
+        res.status(200).json( updatedAmenity );
+      }
+
   } catch (error) {
       console.error(error);
       res.status(500).send('Something went wrong while updating amenity by id');
@@ -64,9 +70,14 @@ router.delete('/:id', authMiddleware, async ( req, res ) => {
       const { id } = req.params;
       const deletedAmenityId = await deleteAmenityById( id );
 
-      res.status(200).json({
+      if(deletedAmenityId === -1 ) {
+        res.status(404).json(`Amenity with id ${id} was not found and thereby not deleted`);
+      } else {
+        res.status(200).json({
           message: `Amenity with id ${deletedAmenityId} was deleted!`
-      });
+        });
+      }
+      
   } catch (error) {
       console.error(error);
       res.status(500).send('Something went wrong while deleting amenity by id');

@@ -24,6 +24,7 @@ const updatePropertyById = async ( id, title, description, location, pricePerNig
     
     if( !updatedProperty || updatedProperty.count === 0 ) {
         console.log(`Property with id ${id} was not found`);
+        return -1;
     }
 
     return {

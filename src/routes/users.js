@@ -53,7 +53,12 @@ router.put('/:id', authMiddleware, async ( req, res ) => {
         const { id } = req.params;
         const { username, password, name, email, phoneNumber, profilePicture } = req.body;
         const updatedUser = await updateUserById( id, username, password, name, email, phoneNumber, profilePicture );
-        res.status(200).json( updatedUser );
+        
+        if(updatedUser === -1 ) {
+            res.status(404).json(`User with id ${id} was not found`);
+        } else {
+            res.status(200).json( updatedUser );
+        }
     } catch (error) {
         console.error(error);
         res.status(500).send('Something went wrong while updating user by id');
@@ -65,9 +70,13 @@ router.delete('/:id', authMiddleware, async ( req, res ) => {
         const { id } = req.params;
         const deletedUserId = await deleteUserById( id );
 
-        res.status(200).json({
-            message: `User with id ${deletedUserId} was deleted!`
-        });
+        if(deletedUserId === -1 ){
+            res.status(400).json(`Review with id ${id} was not found and thereby not deleted`);
+        } else {
+            res.status(200).json({
+                message: `User with id ${deletedUserId} was deleted!`
+            });
+        }
     } catch (error) {
         console.error(error);
         res.status(500).send('Something went wrong while deleting user by id');

@@ -26,9 +26,9 @@ router.get('/:id', async ( req, res ) => {
         const booking = await getBookingById( id );
 
         if(!booking) {
-        res.status(404).send(`Booking with id ${id} was not found`);
+            res.status(404).send(`Booking with id ${id} was not found`);
         } else {
-        res.status(200).json(booking);
+            res.status(200).json(booking);
         }
 
     } catch (error) {
@@ -53,7 +53,13 @@ router.put('/:id', authMiddleware, async ( req, res ) => {
         const { id } = req.params;
         const { userId, propertyId, checkinDate, checkoutDate, numberOfGuests, totalPrice, bookingStatus } = req.body;
         const updatedBooking = await updateBookingById( id, userId, propertyId, checkinDate, checkoutDate, numberOfGuests, totalPrice, bookingStatus );
-        res.status(200).json( updatedBooking );
+        
+        if( updatedBooking === -1 ){
+            res.status(404).json(`Booking with id ${id} was not found`)
+        } else {
+            res.status(200).json( updatedBooking );
+        }
+
     } catch (error) {
         console.error(error);
         res.status(500).send('Something went wrong while updating booking by id');
@@ -65,9 +71,14 @@ router.delete('/:id', authMiddleware, async ( req, res ) => {
         const { id } = req.params;
         const deletedBookingId = await deleteBookingById( id );
   
-        res.status(200).json({
-            message: `Booking with id ${deletedBookingId} was deleted!`
-        });
+        if(deletedBookingId === -1) {
+            res.status(400).json(`Booking with id ${id} was not found and thereby not deleted`);
+        } else {
+            res.status(200).json({
+                message: `Booking with id ${deletedBookingId} was deleted!`
+            });
+        }
+        
     } catch (error) {
         console.error(error);
         res.status(500).send('Something went wrong while deleting booking by id');

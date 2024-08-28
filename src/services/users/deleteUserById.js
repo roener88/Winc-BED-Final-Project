@@ -11,6 +11,7 @@ const deleteUserById = async ( id ) => {
 
     if(!deletedUser || deletedUser.count === 0 ) {
         console.log(`User with id ${id} was not deleted`);
+        return -1;
     }
 
     return id;

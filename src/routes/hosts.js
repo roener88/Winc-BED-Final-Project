@@ -26,9 +26,9 @@ router.get('/:id', async ( req, res ) => {
         const host = await getHostById( id );
 
         if(!host) {
-        res.status(404).send(`Host with id ${id} was not found`);
+            res.status(404).send(`Host with id ${id} was not found`);
         } else {
-        res.status(200).json(host);
+            res.status(200).json(host);
         }
 
     } catch (error) {
@@ -50,10 +50,17 @@ router.post('/', authMiddleware, async( req, res ) => {
 
 router.put('/:id', authMiddleware, async ( req, res ) => {
     try {
+
         const { id } = req.params;
         const { username, password, name, email, phoneNumber, profilePicture, aboutMe } = req.body;
         const updatedHost = await updateHostById( id, username, password, name, email, phoneNumber, profilePicture, aboutMe );
-        res.status(200).json( updatedHost );
+        
+        if( updatedHost === -1 ) {
+            res.status(404).send(`Host with id ${id} was not found`);
+        } else {
+            res.status(200).json( updatedHost );
+        }
+
     } catch (error) {
         console.error(error);
         res.status(500).send('Something went wrong while updating host by id');
@@ -61,13 +68,19 @@ router.put('/:id', authMiddleware, async ( req, res ) => {
 });
 
 router.delete('/:id', authMiddleware, async ( req, res ) => {
+
     try {
         const { id } = req.params;
         const deletedHostId = await deleteHostById( id );
   
+        if( deletedHostId === -1 ) {
+            res.status(400).json(`Host with id ${id} was not found and thereby has not been deleted`);
+        }
+
         res.status(200).json({
             message: `Host with id ${deletedHostId} was deleted!`
         });
+
     } catch (error) {
         console.error(error);
         res.status(500).send('Something went wrong while deleting host by id');

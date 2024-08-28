@@ -11,6 +11,7 @@ const deletePropertyById = async ( id ) => {
 
     if(!deletedProperty || deletedProperty.count === 0 ) {
         console.log(`Property with id ${id} was not deleted`);
+        return -1;
     }
 
     return id;

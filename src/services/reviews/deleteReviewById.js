@@ -11,6 +11,7 @@ const deleteReviewById = async ( id ) => {
 
     if(!deletedReview || deletedReview.count === 0 ) {
         console.log(`User with id ${id} was not deleted`);
+        return -1;
     }
 
     return id;
