@@ -70,7 +70,7 @@ router.delete('/:id', authMiddleware, async ( req, res ) => {
         const deletedReviewId = await deleteReviewById( id );
 
         if(deletedReviewId === -1 ) {
-            res.status(400).json(`Review with id ${id} was not found and thereby not deleted`)
+            res.status(404).json(`Review with id ${id} was not found and thereby not deleted`)
         } else {
             res.status(200).json({
                 message: `User with id ${deletedReviewId} was deleted!`

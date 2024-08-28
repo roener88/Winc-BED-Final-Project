@@ -72,7 +72,7 @@ router.delete('/:id', authMiddleware, async ( req, res ) => {
         const deletedBookingId = await deleteBookingById( id );
   
         if(deletedBookingId === -1) {
-            res.status(400).json(`Booking with id ${id} was not found and thereby not deleted`);
+            res.status(404).json(`Booking with id ${id} was not found and thereby not deleted`);
         } else {
             res.status(200).json({
                 message: `Booking with id ${deletedBookingId} was deleted!`

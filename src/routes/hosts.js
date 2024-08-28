@@ -74,7 +74,7 @@ router.delete('/:id', authMiddleware, async ( req, res ) => {
         const deletedHostId = await deleteHostById( id );
   
         if( deletedHostId === -1 ) {
-            res.status(400).json(`Host with id ${id} was not found and thereby has not been deleted`);
+            res.status(404).json(`Host with id ${id} was not found and thereby has not been deleted`);
         }
 
         res.status(200).json({
