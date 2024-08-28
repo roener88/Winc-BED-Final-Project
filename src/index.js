@@ -3,6 +3,7 @@ import express from "express";
 import amenityRouter from "./routes/amenities.js";
 import bookingRouter from "./routes/bookings.js";
 import hostRouter from "./routes/hosts.js";
+import loginRouter from './routes/login.js';
 import propertyRouter from "./routes/properties.js";
 import reviewRouter from "./routes/reviews.js";
 import userRouter from "./routes/users.js";
@@ -23,6 +24,9 @@ app.use('/bookings', bookingRouter);
 
 // Host Routes
 app.use('/hosts', hostRouter);
+
+// Login Route
+app.use('/login', loginRouter);
 
 // Property Routes
 app.use('/properties', propertyRouter);
