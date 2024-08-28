@@ -1,4 +1,5 @@
 import express from "express";
+import authMiddleware from "../middleware/auth.js";
 
 import getAmenities from "../services/amenities/getAmenities.js";
 import getAmenityById from "../services/amenities/getAmenityById.js";
@@ -35,7 +36,7 @@ router.get('/:id', async ( req, res ) => {
   }
 });
 
-router.post('/', async( req, res ) => {
+router.post('/', authMiddleware, async( req, res ) => {
   try {
       const { name } = req.body;
       const newAmenity = await createAmenity( name );
@@ -46,7 +47,7 @@ router.post('/', async( req, res ) => {
   }
 });
 
-router.put('/:id', async ( req, res ) => {
+router.put('/:id', authMiddleware, async ( req, res ) => {
   try {
       const { id } = req.params;
       const { name } = req.body;
@@ -58,7 +59,7 @@ router.put('/:id', async ( req, res ) => {
   }
 });
 
-router.delete('/:id', async ( req, res ) => {
+router.delete('/:id', authMiddleware, async ( req, res ) => {
   try {
       const { id } = req.params;
       const deletedAmenityId = await deleteAmenityById( id );

@@ -1,4 +1,5 @@
 import express from "express";
+import authMiddleware from "../middleware/auth.js";
 
 import getHosts from "../services/hosts/getHosts.js";
 import getHostById from "../services/hosts/getHostById.js";
@@ -36,7 +37,7 @@ router.get('/:id', async ( req, res ) => {
     }
 });
 
-router.post('/', async( req, res ) => {
+router.post('/', authMiddleware, async( req, res ) => {
     try {
         const { username, password, name, email, phoneNumber, profilePicture, aboutMe } = req.body;
         const newHost = await createHost( username, password, name, email, phoneNumber, profilePicture, aboutMe );
@@ -47,7 +48,7 @@ router.post('/', async( req, res ) => {
     }
 });
 
-router.put('/:id', async ( req, res ) => {
+router.put('/:id', authMiddleware, async ( req, res ) => {
     try {
         const { id } = req.params;
         const { username, password, name, email, phoneNumber, profilePicture, aboutMe } = req.body;
@@ -59,7 +60,7 @@ router.put('/:id', async ( req, res ) => {
     }
 });
 
-router.delete('/:id', async ( req, res ) => {
+router.delete('/:id', authMiddleware, async ( req, res ) => {
     try {
         const { id } = req.params;
         const deletedHostId = await deleteHostById( id );

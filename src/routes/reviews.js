@@ -1,4 +1,5 @@
 import express from "express";
+import authMiddleware from "../middleware/auth.js";
 
 import getReviews from "../services/reviews/getReviews.js";
 import createReview from "../services/reviews/createReview.js";
@@ -35,7 +36,7 @@ router.get('/:id', async ( req, res ) => {
     }
 });
 
-router.post('/', async( req, res ) => {
+router.post('/', authMiddleware, async( req, res ) => {
     try {
         const { userId, propertyId, rating, comment } = req.body;
         const newReview = await createReview( userId, propertyId, rating, comment );
@@ -46,7 +47,7 @@ router.post('/', async( req, res ) => {
     }
 });
 
-router.put('/:id', async ( req, res ) => {
+router.put('/:id', authMiddleware, async ( req, res ) => {
     try {
         const { id } = req.params;
         const { userId, propertyId, rating, comment } = req.body;
@@ -58,7 +59,7 @@ router.put('/:id', async ( req, res ) => {
     }
 });
 
-router.delete('/:id', async ( req, res ) => {
+router.delete('/:id', authMiddleware, async ( req, res ) => {
     try {
         const { id } = req.params;
         const deletedReviewId = await deleteReviewById( id );

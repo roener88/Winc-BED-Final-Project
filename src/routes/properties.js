@@ -1,4 +1,5 @@
 import express from "express";
+import authMiddleware from "../middleware/auth.js";
 
 import getProperties from "../services/properties/getProperties.js";
 import getPropertyById from "../services/properties/getPropertyById.js";
@@ -35,7 +36,7 @@ router.get('/:id', async ( req, res ) => {
     }
 });
 
-router.post('/', async( req, res ) => {
+router.post('/', authMiddleware, async( req, res ) => {
     try {
         const { title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating, amenities } = req.body;
         const newProperty = await createProperty( title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating, amenities );
@@ -46,7 +47,7 @@ router.post('/', async( req, res ) => {
     }
 });
 
-router.put('/:id', async ( req, res ) => {
+router.put('/:id', authMiddleware, async ( req, res ) => {
     try {
         const { id } = req.params;
         const { title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating, amenities } = req.body;
@@ -58,7 +59,7 @@ router.put('/:id', async ( req, res ) => {
     }
 });
 
-router.delete('/:id', async ( req, res ) => {
+router.delete('/:id', authMiddleware, async ( req, res ) => {
     try {
         const { id } = req.params;
         const deletedPropertyId = await deletePropertyById( id );

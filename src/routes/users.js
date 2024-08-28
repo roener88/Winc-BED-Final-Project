@@ -1,4 +1,5 @@
 import express from 'express';
+import authMiddleware from '../middleware/auth.js';
 
 import getUsers from '../services/users/getUsers.js';
 import getUserById from '../services/users/getUserById.js';
@@ -36,7 +37,7 @@ router.get('/:id', async ( req, res ) => {
     }
 });
 
-router.post('/', async( req, res ) => {
+router.post('/', authMiddleware, async( req, res ) => {
     try {
         const { username, password, name, email, phoneNumber, profilePicture } = req.body;
         const newUser = await createUser( username, password, name, email, phoneNumber, profilePicture );
@@ -47,7 +48,7 @@ router.post('/', async( req, res ) => {
     }
 });
 
-router.put('/:id', async ( req, res ) => {
+router.put('/:id', authMiddleware, async ( req, res ) => {
     try {
         const { id } = req.params;
         const { username, password, name, email, phoneNumber, profilePicture } = req.body;
@@ -59,7 +60,7 @@ router.put('/:id', async ( req, res ) => {
     }
 });
 
-router.delete('/:id', async ( req, res ) => {
+router.delete('/:id', authMiddleware, async ( req, res ) => {
     try {
         const { id } = req.params;
         const deletedUserId = await deleteUserById( id );
