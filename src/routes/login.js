@@ -1,15 +1,17 @@
 import { Router } from 'express';
-import userData from '../data/users.json' assert { type: 'json' };
+import getUsers from '../services/users/getUsers.js';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
 
 
 const router = Router();
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
+
     const secretKey = process.env.AUTH_SECRET_KEY || 'my-secret-key';
     const { username, password } = req.body;
-    const { users } = userData;
+    const users = await getUsers(  );
+    
     const user = users.find(
         (u) => u.username === username && u.password === password,
     );
