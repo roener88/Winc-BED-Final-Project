@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-const updatePropertyById = async ( id, title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating ) => {
+const updatePropertyById = async ( id, title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating, amenities ) => {
 
     const updatedProperty = await prisma.property.updateMany({
         where: {
@@ -17,7 +17,8 @@ const updatePropertyById = async ( id, title, description, location, pricePerNig
             bathroomCount, 
             maxGuestCount, 
             hostId, 
-            rating
+            rating,
+            amenities
         }
     });
     

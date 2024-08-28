@@ -37,8 +37,8 @@ router.get('/:id', async ( req, res ) => {
 
 router.post('/', async( req, res ) => {
     try {
-        const { title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating } = req.body;
-        const newProperty = await createProperty( title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating );
+        const { title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating, amenities } = req.body;
+        const newProperty = await createProperty( title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating, amenities );
         res.status(201).json( newProperty );
     } catch (error) {
         console.error(error);
@@ -49,8 +49,8 @@ router.post('/', async( req, res ) => {
 router.put('/:id', async ( req, res ) => {
     try {
         const { id } = req.params;
-        const { title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating } = req.body;
-        const updatedProperty = await updatePropertyById( id, title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating );
+        const { title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating, amenities } = req.body;
+        const updatedProperty = await updatePropertyById( id, title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating, amenities );
         res.status(200).json( updatedProperty );
     } catch (error) {
         console.error(error);

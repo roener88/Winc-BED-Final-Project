@@ -71,13 +71,16 @@ model Property {
 
   host Host @relation(fields: [hostId], references: [id])
 
-  bookings Booking[]
+  amenities Amenity[]
+  bookings  Booking[]
   reviews   Review[]
 }
 
 model Amenity {
   id   String @id @default(uuid())
   name String
+
+  properties Property[]
 }
 
 model Review {
