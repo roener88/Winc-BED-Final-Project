@@ -1,11 +1,9 @@
 import express from "express";
-
 import * as Sentry from "@sentry/node";
 import { nodeProfilingIntegration } from '@sentry/profiling-node';
 
 import logMiddleware from "./middleware/log.js";
 import errorHandler from "./middleware/errorHandler.js";
-// import './middleware/instrument.js';
 
 import amenityRouter from "./routes/amenities.js";
 import bookingRouter from "./routes/bookings.js";
