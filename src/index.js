@@ -1,5 +1,6 @@
 import express from "express";
 
+import logMiddleware from "./middleware/log.js";
 import amenityRouter from "./routes/amenities.js";
 import bookingRouter from "./routes/bookings.js";
 import hostRouter from "./routes/hosts.js";
@@ -11,6 +12,9 @@ import userRouter from "./routes/users.js";
 const app = express();
 
 app.use(express.json());
+
+// Logging middleware on all routes
+app.use(logMiddleware);
 
 app.get("/", (req, res) => {
   res.send("Hello world!");
