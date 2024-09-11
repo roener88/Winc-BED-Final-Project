@@ -1,7 +1,11 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient, Prisma } from "@prisma/client";
 const prisma = new PrismaClient();
 
 const getProperties = async ( location, pricePerNight, amenities ) => {
+
+    const priceFilter = pricePerNight
+    ? new Prisma.Decimal(pricePerNight)
+    : undefined;
 
     const amenitiesArray = Array.isArray(amenities)
     ? amenities
@@ -12,7 +16,7 @@ const getProperties = async ( location, pricePerNight, amenities ) => {
     return prisma.property.findMany({
         where:{
             ...(location && { location }),
-            ...(pricePerNight && {pricePerNight}),
+            ...(priceFilter && { pricePerNight: priceFilter }),
             ...(amenitiesArray.length > 0 && {
                 amenities: {
                   some: {
@@ -22,12 +26,7 @@ const getProperties = async ( location, pricePerNight, amenities ) => {
                   },
                 },
               }),
-            },
-        include: {
-            amenities: true,
-            bookings: true,
-            reviews: true,
-        }
+            }
    });
 }
 

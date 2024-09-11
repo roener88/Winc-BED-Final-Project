@@ -5,7 +5,7 @@ const getBookings = async ( userId ) => {
 
     return prisma.booking.findMany({
         where: {
-            userId
+            ...(userId && {userId})
         }
     });
 }

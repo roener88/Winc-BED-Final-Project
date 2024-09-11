@@ -3,11 +3,7 @@ const prisma = new PrismaClient();
 
 const getAmenities = async () => {
 
-    return prisma.amenity.findMany({
-        include: {
-            properties: true
-        }
-    });
+    return prisma.amenity.findMany();
 }
 
 export default getAmenities;

@@ -6,9 +6,6 @@ const getHosts = async ( name ) => {
     return prisma.host.findMany({
         where: {
             ...(name && {name})
-        },
-        include: {
-            listings: true,
         }
     });
 }
