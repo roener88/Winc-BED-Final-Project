@@ -7,6 +7,9 @@ const getAmenityById = async ( id ) => {
     const amenity = await prisma.amenity.findUnique({
         where: {
             id
+        },
+        include: {
+            properties: true
         }
     });
 
