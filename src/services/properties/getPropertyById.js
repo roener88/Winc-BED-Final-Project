@@ -10,6 +10,8 @@ const getPropertyById = async ( id ) => {
         },
         include: {
             amenities: true,
+            bookings: true,
+            reviews: true,
         }
     });
 

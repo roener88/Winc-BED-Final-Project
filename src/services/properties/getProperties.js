@@ -25,6 +25,8 @@ const getProperties = async ( location, pricePerNight, amenities ) => {
             },
         include: {
             amenities: true,
+            bookings: true,
+            reviews: true,
         }
    });
 }
