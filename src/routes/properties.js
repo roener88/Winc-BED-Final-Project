@@ -12,7 +12,10 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     try {
         const { location, pricePerNight, amenities } = req.query;
-        const properties = await getProperties( location, pricePerNight, amenities );
+
+        const decodedLocation = location ? decodeURIComponent(location) : undefined;
+
+        const properties = await getProperties( decodedLocation, pricePerNight, amenities );
         res.status(200).json(properties);
     } catch (error) {
         console.error(error);
