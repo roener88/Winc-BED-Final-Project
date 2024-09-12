@@ -3,6 +3,7 @@ const prisma = new PrismaClient();
 
 const createUser = async ( username, password, name, email, phoneNumber, profilePicture ) => {
 
+
     return prisma.user.create({
         data: {
             username,

@@ -1,4 +1,5 @@
 import express from "express";
+import { PrismaClient } from "@prisma/client";
 import authMiddleware from "../middleware/auth.js";
 
 import getHosts from "../services/hosts/getHosts.js";
@@ -8,6 +9,7 @@ import updateHostById from "../services/hosts/updateHostById.js";
 import deleteHostById from "../services/hosts/deleteHostById.js";
 
 const router = express.Router();
+const prisma = new PrismaClient();
 
 router.get('/', async (req, res) => {
     try {
@@ -40,6 +42,21 @@ router.get('/:id', async ( req, res ) => {
 router.post('/', authMiddleware, async( req, res ) => {
     try {
         const { username, password, name, email, phoneNumber, profilePicture, aboutMe } = req.body;
+
+        if (!username || !password || !email) {
+            return res.status(400).json({ message: "Username, password, and email are required" });
+        }
+
+        const existingHost = await prisma.host.findUnique({
+            where: {
+                username: username
+            }
+        });
+
+        if (existingHost) {
+            return res.status(409).json({ message: "Username already exists, please try a different username" });
+        }
+
         const newHost = await createHost( username, password, name, email, phoneNumber, profilePicture, aboutMe );
         res.status(201).json( newHost );
     } catch (error) {

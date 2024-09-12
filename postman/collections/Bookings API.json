@@ -1775,7 +1775,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Cozy Mountain Retreat\",\n  \"description\": \"Experience tranquility in our cozy cabin situated on a serene mountain peak.\",\n  \"location\": \"Rocky Mountains, Colorado\",\n  \"pricePerNight\": 120.5,\n  \"bedroomCount\": 3,\n  \"bathRoomCount\": 2,\n  \"maxGuestCount\": 5,\n  \"hostId\": \"f1234567-89ab-cdef-0123-456789abcdef\",\n  \"rating\": 5\n}",
+              "raw": "{\n  \"title\": \"Cozy Mountain Retreat\",\n  \"description\": \"Experience tranquility in our cozy cabin situated on a serene mountain peak.\",\n  \"location\": \"Rocky Mountains, Colorado\",\n  \"pricePerNight\": 120.5,\n  \"bedroomCount\": 3,\n  \"bathroomCount\": 2,\n  \"maxGuestCount\": 5,\n  \"hostId\": \"f1234567-89ab-cdef-0123-456789abcdef\",\n  \"rating\": 5\n}",
               "options": {
                 "raw": {
                   "language": "json"

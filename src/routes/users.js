@@ -1,4 +1,5 @@
 import express from 'express';
+import { PrismaClient } from "@prisma/client";
 import authMiddleware from '../middleware/auth.js';
 
 import getUsers from '../services/users/getUsers.js';
@@ -8,6 +9,7 @@ import updateUserById from '../services/users/updateUserById.js';
 import deleteUserById from '../services/users/deleteUserById.js';
 
 const router = express.Router();
+const prisma = new PrismaClient();
 
 router.get('/', async (req, res) => {
     try {
@@ -40,6 +42,22 @@ router.get('/:id', async ( req, res ) => {
 router.post('/', authMiddleware, async( req, res ) => {
     try {
         const { username, password, name, email, phoneNumber, profilePicture } = req.body;
+
+        if (!username || !password || !email) {
+            return res.status(400).json({ message: "Username, password, and email are required" });
+        }
+
+        const existingUser = await prisma.user.findUnique({
+            where: {
+                username: username
+            }
+        });
+
+        if (existingUser) {
+            return res.status(409).json({ message: "Username already exists, please try a different username" });
+        }
+
+
         const newUser = await createUser( username, password, name, email, phoneNumber, profilePicture );
         res.status(201).json(newUser);
     } catch (error) {
