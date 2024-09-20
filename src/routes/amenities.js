@@ -25,7 +25,7 @@ router.get('/:id', async ( req, res ) => {
       const amenity = await getAmenityById( id );
 
       if(!amenity) {
-        res.status(404).send(`Amenity with id ${id} was not found`);
+        res.status(404).json({message: `Amenity with id ${id} was not found`});
       } else {
         res.status(200).json(amenity);
       }
@@ -39,6 +39,11 @@ router.get('/:id', async ( req, res ) => {
 router.post('/', authMiddleware, async( req, res ) => {
   try {
       const { name } = req.body;
+
+      if(!name) {
+        return res.status(400).json({message: `A name is required`});
+      }
+
       const newAmenity = await createAmenity( name );
       res.status(201).json( newAmenity );
   } catch (error) {
@@ -54,7 +59,7 @@ router.put('/:id', authMiddleware, async ( req, res ) => {
       const updatedAmenity = await updateAmenityById( id, name );
 
       if( updatedAmenity === -1 ){
-        res.status(404).json(`Amenity with id ${id} was not found`);
+        res.status(404).json({message: `Amenity with id ${id} was not found`});
       } else {
         res.status(200).json( updatedAmenity );
       }
@@ -71,11 +76,9 @@ router.delete('/:id', authMiddleware, async ( req, res ) => {
       const deletedAmenityId = await deleteAmenityById( id );
 
       if(deletedAmenityId === -1 ) {
-        res.status(404).json(`Amenity with id ${id} was not found and thereby not deleted`);
+        res.status(404).json({message: `Amenity with id ${id} was not found and thereby not deleted`});
       } else {
-        res.status(200).json({
-          message: `Amenity with id ${deletedAmenityId} was deleted!`
-        });
+        res.status(200).json({message: `Amenity with id ${deletedAmenityId} was deleted!`});
       }
       
   } catch (error) {

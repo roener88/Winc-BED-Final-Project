@@ -26,7 +26,7 @@ router.get('/:id', async ( req, res ) => {
         const booking = await getBookingById( id );
 
         if(!booking) {
-            res.status(404).send(`Booking with id ${id} was not found`);
+            res.status(404).json({message: `Booking with id ${id} was not found`});
         } else {
             res.status(200).json(booking);
         }
@@ -40,6 +40,11 @@ router.get('/:id', async ( req, res ) => {
 router.post('/', authMiddleware, async( req, res ) => {
     try {
         const { userId, propertyId, checkinDate, checkoutDate, numberOfGuests, totalPrice, bookingStatus } = req.body;
+
+        if (!userId || !propertyId) {
+            return res.status(400).json({ message: "userId and propertyId are required" });
+        }
+
         const newBooking = await createBooking( userId, propertyId, checkinDate, checkoutDate, numberOfGuests, totalPrice, bookingStatus );
         res.status(201).json( newBooking );
     } catch (error) {
@@ -55,7 +60,7 @@ router.put('/:id', authMiddleware, async ( req, res ) => {
         const updatedBooking = await updateBookingById( id, userId, propertyId, checkinDate, checkoutDate, numberOfGuests, totalPrice, bookingStatus );
         
         if( updatedBooking === -1 ){
-            res.status(404).json(`Booking with id ${id} was not found`)
+            res.status(404).json({message: `Booking with id ${id} was not found`});
         } else {
             res.status(200).json( updatedBooking );
         }
@@ -72,11 +77,9 @@ router.delete('/:id', authMiddleware, async ( req, res ) => {
         const deletedBookingId = await deleteBookingById( id );
   
         if(deletedBookingId === -1) {
-            res.status(404).json(`Booking with id ${id} was not found and thereby not deleted`);
+            res.status(404).json({message: `Booking with id ${id} was not found and thereby not deleted`});
         } else {
-            res.status(200).json({
-                message: `Booking with id ${deletedBookingId} was deleted!`
-            });
+            res.status(200).json({message: `Booking with id ${deletedBookingId} was deleted!`});
         }
         
     } catch (error) {

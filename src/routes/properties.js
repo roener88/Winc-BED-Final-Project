@@ -29,9 +29,9 @@ router.get('/:id', async ( req, res ) => {
         const property = await getPropertyById( id );
 
         if(!property) {
-        res.status(404).send(`Property with id ${id} was not found`);
+            res.status(404).json({message: `Property with id ${id} was not found`});
         } else {
-        res.status(200).json(property);
+            res.status(200).json(property);
         }
 
     } catch (error) {
@@ -43,6 +43,11 @@ router.get('/:id', async ( req, res ) => {
 router.post('/', authMiddleware, async( req, res ) => {
     try {
         const { title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating, amenities } = req.body;
+
+        if (!hostId) {
+            return res.status(400).json({ message: "hostId is required" });
+        }
+
         const newProperty = await createProperty( title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating, amenities );
         res.status(201).json( newProperty );
     } catch (error) {
@@ -58,7 +63,7 @@ router.put('/:id', authMiddleware, async ( req, res ) => {
         const updatedProperty = await updatePropertyById( id, title, description, location, pricePerNight, bedroomCount, bathroomCount, maxGuestCount, hostId, rating, amenities );
         
         if( updatedProperty === -1 ) {
-            res.status(404).json( `Property with id ${id} was not found` );
+            res.status(404).json({message: `Property with id ${id} was not found`});
         } else {
             res.status(200).json( updatedProperty );
         }
@@ -74,11 +79,9 @@ router.delete('/:id', authMiddleware, async ( req, res ) => {
         const deletedPropertyId = await deletePropertyById( id );
         
         if( deletedPropertyId === -1 ) {
-            res.status(404).json( `Property with id ${id} was not found and thereby not deleted` );
+            res.status(404).json({message: `Property with id ${id} was not found and thereby not deleted`});
         } else {
-            res.status(200).json({
-                message: `Property with id ${deletedPropertyId} was deleted!`
-            });
+            res.status(200).json({message: `Property with id ${deletedPropertyId} was deleted!`});
         }
     } catch (error) {
         console.error(error);

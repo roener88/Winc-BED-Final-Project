@@ -28,7 +28,7 @@ router.get('/:id', async ( req, res ) => {
         const host = await getHostById( id );
 
         if(!host) {
-            res.status(404).send(`Host with id ${id} was not found`);
+            res.status(404).json({message: `Host with id ${id} was not found`});
         } else {
             res.status(200).json(host);
         }
@@ -73,7 +73,7 @@ router.put('/:id', authMiddleware, async ( req, res ) => {
         const updatedHost = await updateHostById( id, username, password, name, email, phoneNumber, profilePicture, aboutMe );
         
         if( updatedHost === -1 ) {
-            res.status(404).send(`Host with id ${id} was not found`);
+            res.status(404).json({message: `Host with id ${id} was not found`});
         } else {
             res.status(200).json( updatedHost );
         }
@@ -91,12 +91,10 @@ router.delete('/:id', authMiddleware, async ( req, res ) => {
         const deletedHostId = await deleteHostById( id );
   
         if( deletedHostId === -1 ) {
-            res.status(404).json(`Host with id ${id} was not found and thereby has not been deleted`);
+            res.status(404).json({message: `Host with id ${id} was not found and thereby has not been deleted`});
+        } else {
+            res.status(200).json({message: `Host with id ${deletedHostId} was deleted!`});
         }
-
-        res.status(200).json({
-            message: `Host with id ${deletedHostId} was deleted!`
-        });
 
     } catch (error) {
         console.error(error);
